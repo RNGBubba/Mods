@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.mrbubba.qfmod.mixin",
+  "package": "com.mrbubba.auctionhouse.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
   "injectors": {
