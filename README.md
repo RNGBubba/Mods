@@ -1,25 +1,32 @@
+# Auction House Mod
 
-Installation information
-=======
+A server-side-only NeoForge mod for Minecraft 1.21.1 that adds a persistent player economy and an in-game auction house. Clients do not need to install anything.
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+## Features
+- JSON-backed economy balances saved in `auctionhouse_balances.json`
+- Player-driven auction listings stored in `auctionhouse_auctions.json`
+- Automatic save and purge every five minutes with item returns on expiration
+- Safe transaction handling that prevents negative balances or overflow
+- Fully server-side commands and chest-based menus
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+## Economy Commands
+- `/balance` – view your own balance
+- `/balance <player>` – view another player's balance (op)
+- `/pay <player> <amount>` – send currency to another player
+- `/eco add|set|remove|delete <player> <amount>` – administrator balance controls
+- `/eco save` and `/eco reload` – manually persist or reload balances from disk
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+## Auction Commands
+- `/auction list <price>` – list the item in your hand
+- `/auction buy <id>` – purchase an auction listing
+- `/auction cancel <id>` – cancel one of your listings
+- `/auction my` – view your active listings
+- `/auction browse [page]` – open the global auction browser
+- `/auction save` and `/auction reload` – administrator persistence controls
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+## Installation
+1. Build the mod with `./gradlew build`.
+2. Place the generated jar from `build/libs` into the server's `mods` folder.
+3. Start the server; balances and auctions will load automatically and save on shutdown.
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+No client installation is required.
