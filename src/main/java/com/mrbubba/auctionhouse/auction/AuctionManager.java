@@ -9,13 +9,13 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -130,23 +130,21 @@ public class AuctionManager {
         return true;
     }
 
+    public static List<AuctionEntry> getAuctions(boolean mine, UUID player) {
+        List<AuctionEntry> list = new ArrayList<>();
+        for (AuctionEntry entry : AUCTIONS.values()) {
+            if (mine && !entry.seller().equals(player)) continue;
+            list.add(entry);
+        }
+        return list;
+    }
+
     public static void openBrowse(ServerPlayer player) {
         openBrowse(player, 0);
     }
 
     public static void openBrowse(ServerPlayer player, int page) {
         purgeExpired(player.server);
-        SimpleContainer container = new SimpleContainer(54);
-        int start = page * container.getContainerSize();
-        int index = 0;
-        int i = 0;
-        for (AuctionEntry entry : AUCTIONS.values()) {
-            if (index++ < start) continue;
-            if (i >= container.getContainerSize()) break;
-            ItemStack display = entry.stack().copy();
-            display.set(DataComponents.CUSTOM_NAME, Component.literal("ID: " + entry.id() + " Price: " + entry.price()));
-            container.setItem(i++, display);
-        }
         MenuProvider provider = new MenuProvider() {
             @Override
             public Component getDisplayName() {
@@ -155,23 +153,18 @@ public class AuctionManager {
 
             @Override
             public AbstractContainerMenu createMenu(int id, net.minecraft.world.entity.player.Inventory inv, net.minecraft.world.entity.player.Player p) {
-                return ChestMenu.sixRows(id, inv, container);
+                return new AuctionMenu(id, (ServerPlayer)p, false, page);
             }
         };
         player.openMenu(provider);
     }
 
     public static void openMyListings(ServerPlayer player) {
+        openMyListings(player, 0);
+    }
+
+    public static void openMyListings(ServerPlayer player, int page) {
         purgeExpired(player.server);
-        SimpleContainer container = new SimpleContainer(54);
-        int i = 0;
-        for (AuctionEntry entry : AUCTIONS.values()) {
-            if (!entry.seller().equals(player.getUUID())) continue;
-            if (i >= container.getContainerSize()) break;
-            ItemStack display = entry.stack().copy();
-            display.set(DataComponents.CUSTOM_NAME, Component.literal("ID: " + entry.id() + " Price: " + entry.price()));
-            container.setItem(i++, display);
-        }
         MenuProvider provider = new MenuProvider() {
             @Override
             public Component getDisplayName() {
@@ -180,7 +173,7 @@ public class AuctionManager {
 
             @Override
             public AbstractContainerMenu createMenu(int id, net.minecraft.world.entity.player.Inventory inv, net.minecraft.world.entity.player.Player p) {
-                return ChestMenu.sixRows(id, inv, container);
+                return new AuctionMenu(id, (ServerPlayer)p, true, page);
             }
         };
         player.openMenu(provider);

@@ -7,7 +7,7 @@ A server-side-only NeoForge mod for Minecraft 1.21.1 that adds a persistent play
 - Player-driven auction listings stored in `auctionhouse_auctions.json`
 - Automatic save and purge every five minutes with item returns on expiration
 - Safe transaction handling that prevents negative balances or overflow
-- Fully server-side commands and chest-based menus
+- Fully server-side commands and chest-based menus with clickable pagination
 
 ## Economy Commands
 - `/balance` – view your own balance
@@ -22,6 +22,7 @@ A server-side-only NeoForge mod for Minecraft 1.21.1 that adds a persistent play
 - `/auction cancel <id>` – cancel one of your listings
 - `/auction my` – view your active listings
 - `/auction browse [page]` – open the global auction browser
+- Inside the auction GUI, click a listing to buy or cancel it and use the slime ball/barrier buttons to switch pages
 - `/auction save` and `/auction reload` – administrator persistence controls
 
 ## Installation
