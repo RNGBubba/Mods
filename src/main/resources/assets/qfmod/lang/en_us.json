@@ -1,0 +1,13 @@
+{
+  "itemGroup.qfmod": "Example Mod Tab",
+  "block.qfmod.example_block": "Example Block",
+  "item.qfmod.example_item": "Example Item",
+
+  "qfmod.configuration.title": "QFMod Configs",
+  "qfmod.configuration.section.qfmod.common.toml": "QFMod Configs",
+  "qfmod.configuration.section.qfmod.common.toml.title": "QFMod Configs",
+  "qfmod.configuration.items": "Item List",
+  "qfmod.configuration.logDirtBlock": "Log Dirt Block",
+  "qfmod.configuration.magicNumberIntroduction": "Magic Number Text",
+  "qfmod.configuration.magicNumber": "Magic Number"
+}
